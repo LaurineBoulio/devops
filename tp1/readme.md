@@ -1,3 +1,4 @@
+## TP1
 # remise a zero
 docker stop 3334c508b9b8
 docker rm 3334c508b9b8
@@ -92,3 +93,15 @@ docker tag tp1_database laurinebou/database:1.0
 docker push laurinebou/httpd:1.0
 docker push laurinebou/backend:1.0
 docker push laurinebou/database:1.0
+
+
+## TP2
+# build and test your application
+newgrp docker
+* dans backend (pomp.xml)
+mvn clean verify
+
+* mvn clean verify : vérif qualité du code
+* test unitaire : tester qu'une partie du code
+* comportement test : tester indépendamment sur qu'une partie du code sans intégration
+* testcontainers :permet de tester des modules défini à l'avance
