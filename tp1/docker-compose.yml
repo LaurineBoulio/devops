@@ -1,24 +1,36 @@
 version: '3.3'
 services:
+# API
   backend:
+    # chemin du dockerfile
     build:
       ./backend
+    # network du container
     networks:
         - my-network
+    # lancer après bd
     depends_on:
       - database
+# BASE DE DONNEES
   database:
+    # chemin du dockerfile
     build:
       ./sql
+    # network du container
     networks:
       - my-network
+# FRONT ET APACHE
   httpd:
+    # chemin du dockerfile
     build:
       ./http
+    # host vers container redirection
     ports:
       - 80:80
+    # network du container
     networks:
       - my-network
+    # lancer après backend
     depends_on:
       - backend
 networks:

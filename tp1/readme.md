@@ -43,6 +43,7 @@ docker run -d --name java laurinebou/java
 docker rm -f db_view
 docker build -t laurinebou/spring .
 docker run --name spring -p 8080:8080 laurinebou/spring     (ne pas mettre l'option -d)
+* * Compliation avec JDK puis run avec JRE
 
 # backend api
 docker rm -f spring
@@ -81,5 +82,13 @@ docker run -d --name http -p 80:80 --network net laurinebou/http
 # link application
 *  fichier docker-composer et 
 docker-compose up --build
-
 docker-compose down
+
+# publish
+docker tag tp1_httpd laurinebou/httpd:1.0
+docker tag tp1_backend laurinebou/backend:1.0
+docker tag tp1_database laurinebou/database:1.0
+
+docker push laurinebou/httpd:1.0
+docker push laurinebou/backend:1.0
+docker push laurinebou/database:1.0
