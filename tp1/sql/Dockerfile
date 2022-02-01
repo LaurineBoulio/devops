@@ -4,5 +4,5 @@ POSTGRES_USER=usr \
 POSTGRES_PASSWORD=pwd
 
 
-COPY sql/01-create.sql /docker-entrypoint-initdb.d/
-COPY sql/02-init.sql /docker-entrypoint-initdb.d/
+COPY 01-create.sql /docker-entrypoint-initdb.d/
+COPY 02-init.sql /docker-entrypoint-initdb.d/
