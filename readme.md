@@ -1,52 +1,52 @@
-## TP1
-# remise a zero
+# TP1
+## remise a zero
 docker stop 3334c508b9b8
 docker rm 3334c508b9b8
 
-# build
+## build
 docker build -t laurinebou/postgre .
 
-# run
+## run
 docker login
 docker network create net
 docker run -d --name postgre --network net laurinebou/postgre
 docker run -d -p 8080:8080 --name db_view --network net adminer
 
-# initialisation bd dans fichier docker
+## initialisation bd dans fichier docker
 * creation fichier sql
 COPY sql/01-create.sql /docker-entrypoint-initdb.d
 COPY sql/02-init.sql /docker-entrypoint-initdb.d
-# Arret des contenaires + rebuild
+## Arret des contenaires + rebuild
 docker rm -f db_view
 docker rm -f postgre
 docker build -t laurinebou/postgre .
 docker run -d --name postgre --network net laurinebou/postgre
 docker run -d -p 8080:8080 --name db_view --network net adminer
 
-# perist data
+## perist data
 docker rm -f postgre
 docker run -d --name postgre -v /tmp/data:/var/lib/postgresql/data --network net laurinebou/postgre
 
-# backend api
+## backend api
 * creation fichier java
 * dockerfile
 COPY Main.class /java
 RUN java Main 
 
-# build
+## build
 docker rm -f 0f270ba5f35ddc4c943e435569a366269794b155554fb8e19f8c53a4e9c1f8df
 javac Main.java
 docker build -t laurinebou/java .
 docker run -d --name java laurinebou/java
 
-# multistage build
+## multistage build
 * creation dockerfile spring
 docker rm -f db_view
 docker build -t laurinebou/spring .
 docker run --name spring -p 8080:8080 laurinebou/spring     (ne pas mettre l'option -d)
 * * Compliation avec JDK puis run avec JRE
 
-# backend api
+## backend api
 docker rm -f spring
 * dans dossier sql
 docker build -t laurinebou/postgre .
@@ -55,7 +55,7 @@ docker run -d --name postgre --network net laurinebou/postgre
 docker build -t laurinebou/api .
 docker run --name api -p 8080:8080 --network net laurinebou/api
 
-# http server
+## http server
 docker rm -f api  
 docker rm -f postgre
 * dockerfile
@@ -69,7 +69,7 @@ docker run --rm httpd:2.4 cat /usr/local/apache2/conf/httpd.conf > my-httpd.conf
 FROM httpd:2.4
 COPY ./my-httpd.conf /usr/local/apache2/conf/httpd.conf
 
-# reverse proxy
+## reverse proxy
 * run postgre
 docker build -t laurinebou/postgre .
 docker run -d --name postgre -v /tmp/data:/var/lib/postgresql/data --network net laurinebou/postgre
@@ -80,12 +80,12 @@ docker run -d --name backend -p 8080:8080 --network net laurinebou/backend
 docker build -t laurinebou/http .
 docker run -d --name http -p 80:80 --network net laurinebou/http
 
-# link application
+## link application
 *  fichier docker-composer et 
 docker-compose up --build
 docker-compose down
 
-# publish
+## publish
 docker tag tp1_httpd laurinebou/httpd:1.0
 docker tag tp1_backend laurinebou/backend:1.0
 docker tag tp1_database laurinebou/database:1.0
@@ -95,8 +95,8 @@ docker push laurinebou/backend:1.0
 docker push laurinebou/database:1.0
 
 
-## TP2
-# build and test your application
+# TP2
+## build and test your application
 newgrp docker
 * dans backend (pomp.xml)
 mvn clean verify
@@ -107,7 +107,7 @@ mvn clean verify
 * testcontainers :permet de tester des modules defini à l'avance
 
 
-## TD3
+# TD3
 
 ssh -i ./id_rsa centos@laurine.boulio.takima.cloud
 * fichier inventory
@@ -122,7 +122,7 @@ ansible all -m service -a "name=httpd state=started" --private-key=id_rsa -i inv
 
 
 
-## TP3
+# TP3
 ansible all -i inventories/setup.yml -m ping
 
 ansible all -i inventories/setup.yml -m setup -a "filter=ansible_distribution*"
@@ -133,9 +133,7 @@ ansible-playbook -i inventories/setup.yml playbook.yml
 
 ansible-playbook -i inventories/setup.yml playbook.yml --syntax-check
 
-ansible-playbook -i inventories/setup.yml playbook.yml
-
-# Creation des roles
+## Creation des roles
 ansible-galaxy init roles/docker
 ansible-galaxy init roles/network
 ansible-galaxy init roles/database
@@ -149,4 +147,9 @@ ansible-playbook -i inventories/setup.yml playbook.yml
 
 http://laurine.boulio.takima.cloud/departments/IRC/students
 
+## front
+*  fichier docker-composer
+newgrp docker
+docker-compose up --build
+docker-compose down
 

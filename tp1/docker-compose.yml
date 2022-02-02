@@ -33,5 +33,11 @@ services:
     # lancer après backend
     depends_on:
       - backend
+  front:
+    build: ../tp3/devops-front-main
+    networks:
+      - my-network
+    depends_on:
+      - backend
 networks:
   my-network:
