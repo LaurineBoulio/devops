@@ -3,7 +3,7 @@
 - name: Run HTTPD
   docker_container:
     name: httpd
-    image: laurinebou/httpd
+    image: laurinebou/httpd:1.0
     ports: 80:80
     state: started
     networks:

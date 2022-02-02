@@ -3,7 +3,7 @@
 - name: Run DATABASE
   docker_container:
     name: database
-    image: laurinebou/database
+    image: laurinebou/database:1.0
     state: started
     env:
       POSTGRES_DB: db

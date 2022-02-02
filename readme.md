@@ -101,10 +101,10 @@ newgrp docker
 * dans backend (pomp.xml)
 mvn clean verify
 
-* mvn clean verify : vérif qualité du code
+* mvn clean verify : verif qualite du code
 * test unitaire : tester qu'une partie du code
-* comportement test : tester indépendamment sur qu'une partie du code sans intégration
-* testcontainers :permet de tester des modules défini à l'avance
+* comportement test : tester independamment sur qu'une partie du code sans integration
+* testcontainers :permet de tester des modules defini à l'avance
 
 
 ## TD3
@@ -142,14 +142,11 @@ ansible-galaxy init roles/database
 ansible-galaxy init roles/app
 ansible-galaxy init roles/proxy
 
-docker tag tp1_httpd laurinebou/httpd:1.0
-docker tag tp1_backend laurinebou/backend:1.0
-docker tag tp1_database laurinebou/database:1.0
-
-docker push laurinebou/httpd:1.0
-docker push laurinebou/backend:1.0
-docker push laurinebou/database:1.0
+newgrp docker
+docker login
 
 ansible-playbook -i inventories/setup.yml playbook.yml
+
+http://laurine.boulio.takima.cloud/departments/IRC/students
 
 

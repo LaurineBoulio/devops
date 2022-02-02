@@ -3,7 +3,7 @@
 - name: Run Backend
   docker_container:
     name: backend
-    image: laurinebou/backend
+    image: laurinebou/backend:1.0
     exposed_ports: 
       - 80:80
     state: started
