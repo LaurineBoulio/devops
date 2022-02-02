@@ -22,9 +22,8 @@ jobs:
         #TODO
       #finally build your app with the latest command
       - name: Build and test with Maven
-        run: mvn clean verify --file ./tp1/backend/pom.xml
-
-
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=LaurineBoulio_devops -Dsonar.organization=laurineboulio -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{secrets.SONAR_TOKEN }} --file ./tp1/backend/pom.xml
+        #mvn clean verify --file ./tp1/backend/pom.xml
         # define job to build and publish docker image
   build-and-push-docker-image:
     needs: test-backend
