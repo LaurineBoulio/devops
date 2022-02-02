@@ -105,3 +105,51 @@ mvn clean verify
 * test unitaire : tester qu'une partie du code
 * comportement test : tester indépendamment sur qu'une partie du code sans intégration
 * testcontainers :permet de tester des modules défini à l'avance
+
+
+## TD3
+
+ssh -i ./id_rsa centos@laurine.boulio.takima.cloud
+* fichier inventory
+[dev]
+centos@laurine.boulio.takima.cloud
+* 
+ansible all -m ping --private-key=id_rsa -i inventory.yml -u centos
+ansible all -m yum -a "name=httpd state=present" --private-key=id_rsa -i inventory.yml -u centos
+ansible all -m yum -a "name=httpd state=present" --private-key=id_rsa -i inventory.yml -u centos --become
+ansible all -m shell -a 'echo "<html><h1>Hello CPE</h1></html>" >> /var/www/html/index.html' --private-key=id_rsa -i inventory.yml -u centos --become
+ansible all -m service -a "name=httpd state=started" --private-key=id_rsa -i inventory.yml -u centos --become
+
+
+
+## TP3
+ansible all -i inventories/setup.yml -m ping
+
+ansible all -i inventories/setup.yml -m setup -a "filter=ansible_distribution*"
+
+ansible all -i inventories/setup.yml -m yum -a "name=httpd state=absent" --become
+
+ansible-playbook -i inventories/setup.yml playbook.yml
+
+ansible-playbook -i inventories/setup.yml playbook.yml --syntax-check
+
+ansible-playbook -i inventories/setup.yml playbook.yml
+
+# Creation des roles
+ansible-galaxy init roles/docker
+ansible-galaxy init roles/network
+ansible-galaxy init roles/database
+ansible-galaxy init roles/app
+ansible-galaxy init roles/proxy
+
+docker tag tp1_httpd laurinebou/httpd:1.0
+docker tag tp1_backend laurinebou/backend:1.0
+docker tag tp1_database laurinebou/database:1.0
+
+docker push laurinebou/httpd:1.0
+docker push laurinebou/backend:1.0
+docker push laurinebou/database:1.0
+
+ansible-playbook -i inventories/setup.yml playbook.yml
+
+
